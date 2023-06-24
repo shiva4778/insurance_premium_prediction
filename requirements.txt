@@ -2,3 +2,5 @@ numpy
 pandas 
 sklearn
 Flask
+six
+scikit_learn

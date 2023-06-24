@@ -5,7 +5,6 @@ training_pipeline_config:
 data_ingestion_config:
   dataset_download_url: https://www.kaggle.com/datasets/noordeen/insurance-premium-prediction/download?datasetVersionNumber=1
   raw_data_dir: raw_data
-  tgz_download_dir: tgz_data
   ingested_dir: ingested_data
   ingested_train_dir: train
   ingested_test_dir: test 

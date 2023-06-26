@@ -4,3 +4,4 @@ sklearn
 Flask
 six
 scikit_learn
+evidently

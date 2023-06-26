@@ -5,6 +5,7 @@ from insurance.exception import InsuranceException
 from insurance.logger import logging
 import numpy as np
 import pandas as pd
+
 from insurance.entity.artifact_entity import DataIngestionArtifact
 from sklearn.model_selection import train_test_split
 
@@ -50,21 +51,28 @@ class DataIngestion:
         os.makedirs(train_dir,exist_ok=True)
         file_name='train'
         extension='.csv'
-        file_path=os.path.join(train_dir,file_name+extension)
-        train_data.to_csv(file_path)
+        train_file_path=os.path.join(train_dir,file_name+extension)
+        train_data.to_csv(train_file_path)
 
         test_dir=self.data_ingestion_config.ingested_test_dir
         os.makedirs(test_dir,exist_ok=True)
         file_name='test'
         extension='.csv'
-        file_path=os.path.join(test_dir,file_name+extension)
-        test_data.to_csv(file_path)
+        test_file_path=os.path.join(test_dir,file_name+extension)
+        test_data.to_csv(test_file_path)
+
+        data_ingestion_artifact=DataIngestionArtifact(train_file_path=train_file_path,
+             test_file_path=test_file_path,is_ingested=True,message='Training and testing ingestion is completed')
 
         logging.info('Training and testing completed')
 
+        print(data_ingestion_artifact)
+
         print('successfully completed')
 
-        return raw.head()
+
+
+        return data_ingestion_artifact
     
         
 

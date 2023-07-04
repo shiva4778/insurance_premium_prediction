@@ -8,6 +8,7 @@ def main():
     try:
         pipeline = Pipeline()
         pipeline.run_pipeline()
+        #Configuration().get_data_transformation_config()
         
         return 'completed'
     except Exception as e:

@@ -116,7 +116,37 @@ class Configuration:
             
 
     def get_data_transformation_config(self)->DataTransformationConfig:
-        pass
+        try:
+            artifact_dir=self.training_pipeline_config.artifact_dir #Creating data transformation artifact
+            data_transformation_artifact_dir=os.path.join(artifact_dir,DATA_TRANSFORMATION_ARTIFACT_DIR,
+                                                          self.time_stamp)
+            data_transformation_config=self.config_info[DATA_TRANSFORMATION_CONFIG_KEY]
+            transformed_dir=os.path.join(data_transformation_artifact_dir,
+                                         DATA_TRANSFORMATION_TRANSFORMED_DIR_KEY)
+            bmi_classification=data_transformation_config[DATA_TRANSFORMATION_BMI_CATEGORY_KEY]
+
+            preprocessed_object_file_path=os.path.join(data_transformation_artifact_dir,
+                                                       data_transformation_config[DATA_TRANSFORMATION_PREPROCESSING_DIR_KEY],
+                                                       data_transformation_config[DATA_TRANSFORMATION_PREPROCESSED_OBJECT_FILE_NAME_KEY])
+            transformed_train_dir=os.path.join(transformed_dir,
+                                               data_transformation_config[DATA_TRANSFORMATION_TRANSFORMED_TRAIN_DIR_KEY])
+            transformed_test_dir=os.path.join(transformed_dir,data_transformation_config[DATA_TRANSFORMATION_TRANSFORMED_TEST_DIR_KEY])
+            
+
+            data_transformation_config=DataTransformationConfig(bmi_classification=bmi_classification,
+                                                                transformed_train_dir=transformed_train_dir,
+                                                                transformed_test_dir=transformed_test_dir
+                                                            ,preprocessed_object_file_path=preprocessed_object_file_path)
+            
+            
+            logging.info('Data Transformation Configuration Completed')
+            
+            
+            print(data_transformation_config)
+
+            return data_transformation_config
+        except Exception as e:
+            raise InsuranceException(e,sys) from e
 
     def get_model_trainer_config(self)->ModelTrainerConfig:
         pass

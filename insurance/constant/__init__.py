@@ -65,13 +65,13 @@ DATA_TRANSFORMATION_PREPROCESSED_OBJECT_FILE_NAME_KEY='preprocessed_object_file_
 
 #Model trainer config related variable
 
-MODEL_TRAINER_CONFIG_KEY='model_trainer_config'
-MODEL_TRAINER_DIR='trained_model_dir'
-TRAINED_MODEL_DIR_KEY='model_file_name'
-MODEL_FILE_NAME_KEY='model_file_name'
-MODEL_BAE_ACCURACY_KEY='base_config'
-MODEL_CONFIG_DIR_KEY='model_config_dir'
-MODEL_CONFIG_FILE_NAME='model_config_file_name'
+MODEL_TRAINER_ARTIFACT_DIR = "model_trainer"
+MODEL_TRAINER_CONFIG_KEY = "model_trainer_config"
+MODEL_TRAINER_TRAINED_MODEL_DIR_KEY = "trained_model_dir"
+MODEL_TRAINER_TRAINED_MODEL_FILE_NAME_KEY = "model_file_name"
+MODEL_TRAINER_BASE_ACCURACY_KEY = "base_accuracy"
+MODEL_TRAINER_MODEL_CONFIG_DIR_KEY = "model_config_dir"
+MODEL_TRAINER_MODEL_CONFIG_FILE_NAME_KEY = "model_config_file_name"
 
 #Model pusher config related variable
 

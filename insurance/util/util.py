@@ -8,6 +8,20 @@ from insurance.exception import InsuranceException
 import os,sys
 import numpy as np
 
+def write_yaml_file(file_path:str,data:dict=None):
+    """
+    Create yaml file 
+    file_path: str
+    data: dict
+    """
+    try:
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path,"w") as yaml_file:
+            if data is not None:
+                yaml.dump(data,yaml_file)
+    except Exception as e:
+        raise InsuranceException(e,sys)
+
 
 def read_yaml_file(file_path:str)->dict:
     """
@@ -94,3 +108,54 @@ def save_object(file_path:str,obj):
     except Exception as e:
         raise InsuranceException(e,sys) from e
     
+def load_object(file_path:str):
+    """
+    file_path: str
+    """
+    try:
+        with open(file_path, "rb") as file_obj:
+            return dill.load(file_obj)
+    except Exception as e:
+        raise InsuranceException(e,sys) from e
+
+
+def load_numpy_array_data(file_path: str) -> np.array:
+    """
+    load numpy array data from file.
+    file_path: str location of file to load
+    return: np.array data type loaded
+    """
+    try:
+        with open(file_path, 'rb') as file_obj:
+            return np.load(file_obj)
+    except Exception as e:
+        raise InsuranceException(e, sys) from e
+    
+#Checking data type and converting required one by using information from schema.yaml
+# i.e basically we will do typecasting in data transformation   
+def load_data(file_path:str, schema_file_path: str) -> pd.DataFrame:
+    try:
+
+        dataset_schema = read_yaml_file(schema_file_path)
+
+        schema = dataset_schema[DATASET_SCHEMA_COLUMNS_KEY]
+
+        dataframe = pd.read_csv(file_path)
+        print(dataframe.head())
+        
+        dataframe=dataframe.drop('Unnamed: 0',axis=1)
+        print(dataframe.columns)
+        error_message = ""
+
+        for column in dataframe.columns:
+            if column in list(schema.keys()):
+                dataframe[column].astype(schema[column])
+            else:
+                error_message = f"{error_message} \nColumn : [{column}] is not in the schema."
+        
+        if len(error_message) > 0:
+            raise  Exception(error_message)
+        return dataframe
+
+    except Exception as e:
+        raise InsuranceException(e,sys) from e

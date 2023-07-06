@@ -3,10 +3,11 @@ from insurance.logger import logging
 from insurance.exception import InsuranceException
 from insurance.component.data_validation import DataValidation
 from insurance.component.data_transformation import DataTransformation
+from insurance.component.model_trainer import ModelTrainer,InsuranceEstimatorModel
 
 
-from insurance.entity.artifact_entity import DataIngestionArtifact
-from insurance.entity.artifact_entity import DataValidationArtifact
+
+from insurance.entity.artifact_entity import DataIngestionArtifact,ModelTrainerArtifact,DataValidationArtifact
 from insurance.entity.config_entity import DataIngestionConfig
 from insurance.component.data_ingestion import DataIngestion
 import os,sys
@@ -39,7 +40,7 @@ class Pipeline:
                                                 )
             return data_validation.initiate_data_validation()
         except Exception as e:
-            raise InsuranceExcecption(e, sys) from e
+            raise InsuranceException(e, sys) from e
 
     def start_data_transformation(self):
         try:
@@ -51,7 +52,13 @@ class Pipeline:
         except Exception as e:
             raise InsuranceException(e,sys) from e
     def start_model_trainer(self):
-        pass
+        try:
+            model_trainer = ModelTrainer(model_trainer_config=self.config.get_model_trainer_config(),
+                                         data_transformation_artifact=self.start_data_transformation()
+                                         )
+            return model_trainer.initiate_model_trainer()
+        except Exception as e:
+            raise InsuranceException(e, sys) from e
 
     def start_model_evaluation(self):
         pass
@@ -65,7 +72,7 @@ class Pipeline:
             #data_ingestion_artifact=self.start_data_ingestion()
             #data_validation_artifact=self.start_data_validation()
 
-            data_transformation_artifact = self.start_data_transformation()
+            data_transformation_artifact = self.start_model_trainer()
 
             
 

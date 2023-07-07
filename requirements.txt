@@ -3,6 +3,7 @@ pandas
 sklearn
 Flask
 six
+yaml
 dill
 scikit_learn
 evidently

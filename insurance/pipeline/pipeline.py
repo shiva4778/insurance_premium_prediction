@@ -1,24 +1,23 @@
-from insurance.config.configuration import Configuration
 from insurance.logger import logging
 from insurance.exception import InsuranceException
+
+from insurance.component.data_validation import DataValidation
+from insurance.config.configuration import Configuration
+from insurance.entity.artifact_entity import *
+from insurance.entity.config_entity import DataIngestionConfig
+import os,sys
+from insurance.component.data_ingestion import DataIngestion
 from insurance.component.data_validation import DataValidation
 from insurance.component.data_transformation import DataTransformation
-from insurance.component.model_trainer import ModelTrainer,InsuranceEstimatorModel
-from datetime import datetime
-import pandas as pd
-from collections import namedtuple
-
-from insurance.entity.artifact_entity import DataIngestionArtifact,ModelTrainerArtifact,DataValidationArtifact,\
-ModelEvaluationArtifact,ModelPusherArtifact
-from insurance.entity.config_entity import DataIngestionConfig
-from insurance.component.data_ingestion import DataIngestion
-import os,sys
-
+from insurance.component.model_trainer import ModelTrainer
 from insurance.component.model_evaluation import ModelEvaluation
 from insurance.component.model_pusher import ModelPusher
 from insurance.constant import EXPERIMENT_DIR_NAME, EXPERIMENT_FILE_NAME
 from threading import Thread
 import uuid
+from datetime import datetime
+import pandas as pd
+from collections import namedtuple
 
 Experiment = namedtuple(
     "Experiment", 
@@ -32,11 +31,13 @@ Experiment = namedtuple(
     "message",
     "experiment_file_path", "accuracy", "is_model_accepted"]
 )
+
+
 class Pipeline(Thread):
     experiment: Experiment = Experiment(*([None] * 11))
     experiment_file_path = None
 
-    def __init__(self, config: Configuration) -> None:
+    def __init__(self, config= Configuration()) -> None:
         try:
             os.makedirs(config.training_pipeline_config.artifact_dir, exist_ok=True)
             Pipeline.experiment_file_path = os.path.join(config.training_pipeline_config.artifact_dir,
@@ -44,53 +45,56 @@ class Pipeline(Thread):
                                                          EXPERIMENT_FILE_NAME)
             super().__init__(daemon=False, name="pipeline")
             self.config = config
-
         except Exception as e:
-            raise InsuranceException(e,sys) from e
+            raise InsuranceException(e, sys) from e
 
-    def start_data_ingestion(self)->DataIngestionArtifact:
-        logging.info('reached data ingestion')
-        try: 
+    def start_data_ingestion(self) -> DataIngestionArtifact:
+        try:
             data_ingestion = DataIngestion(data_ingestion_config=self.config.get_data_ingestion_config())
-            
-            logging.info('data_ingestion_completed')
             return data_ingestion.train_test_split()
         except Exception as e:
-            raise InsuranceException(e,sys) from e    
+            raise InsuranceException(e, sys) from e
 
-
-    def start_data_validation(self, data_ingestion_artifact: DataIngestionArtifact) :
+    def start_data_validation(self, data_ingestion_artifact: DataIngestionArtifact) -> DataValidationArtifact:
         try:
-
             data_validation = DataValidation(data_validation_config=self.config.get_data_validation_config(),
-                                                data_ingestion_artifact=self.start_data_ingestion()
-                                                )
+                                             data_ingestion_artifact=data_ingestion_artifact
+                                             )
             return data_validation.initiate_data_validation()
         except Exception as e:
             raise InsuranceException(e, sys) from e
 
-    def start_data_transformation(self):
+    def start_data_transformation(self,
+                                  data_ingestion_artifact: DataIngestionArtifact,
+                                  data_validation_artifact: DataValidationArtifact
+                                  ) -> DataTransformationArtifact:
         try:
-            data_transformation=DataTransformation(data_transformation_config=self.config.get_data_transformation_config()\
-            ,data_ingestion_artifact=self.start_data_ingestion(),data_validation_artifact=self.start_data_validation(self.start_data_ingestion()))
-            logging.info('initiated data transformation')
+            data_transformation = DataTransformation(
+                data_transformation_config=self.config.get_data_transformation_config(),
+                data_ingestion_artifact=data_ingestion_artifact,
+                data_validation_artifact=data_validation_artifact
+            )
             return data_transformation.initiate_data_transformation()
-        
         except Exception as e:
-            raise InsuranceException(e,sys) from e
-    def start_model_trainer(self):
+            raise InsuranceException(e, sys)
+
+
+
+    def start_model_trainer(self, data_transformation_artifact: DataTransformationArtifact) -> ModelTrainerArtifact:
         try:
             model_trainer = ModelTrainer(model_trainer_config=self.config.get_model_trainer_config(),
-                                         data_transformation_artifact=self.start_data_transformation()
+                                         data_transformation_artifact=data_transformation_artifact
                                          )
             return model_trainer.initiate_model_trainer()
         except Exception as e:
             raise InsuranceException(e, sys) from e
-        
+
+
+
+
     def start_model_evaluation(self, data_ingestion_artifact: DataIngestionArtifact,
                                data_validation_artifact: DataValidationArtifact,
                                model_trainer_artifact: ModelTrainerArtifact) -> ModelEvaluationArtifact:
-        
         try:
             model_eval = ModelEvaluation(
                 model_evaluation_config=self.config.get_model_evaluation_config(),
@@ -112,12 +116,6 @@ class Pipeline(Thread):
             return model_pusher.initiate_model_pusher()
         except Exception as e:
             raise InsuranceException(e, sys) from e
-
-    
-        pass
-
-    
-        
 
     def run_pipeline(self):
         try:
@@ -222,4 +220,3 @@ class Pipeline(Thread):
                 return pd.DataFrame()
         except Exception as e:
             raise InsuranceException(e, sys) from e
-        

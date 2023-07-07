@@ -19,7 +19,7 @@ def get_requirements(file_path:str)->List[str]:
 
 setup(
     name='insurance_premium',
-    version='3.9.12',
+    version='3.7.0',
     author='Shivanshu Mall',
     author_email='shivanshuxmall@gmail.com',
     packages=find_packages(),

@@ -53,9 +53,10 @@ class ModelTrainer:
             logging.info(f"Loading transformed training dataset")
             transformed_train_file_path = self.data_transformation_artifact.transformed_train_file_path
             train_array = load_numpy_array_data(file_path=transformed_train_file_path)
-
+            # It converts npz format(compressed) into uncompressed format
             logging.info(f"Loading transformed testing dataset")
             transformed_test_file_path = self.data_transformation_artifact.transformed_test_file_path
+
             test_array = load_numpy_array_data(file_path=transformed_test_file_path)
 
             logging.info(f"Splitting training and testing input and target feature")

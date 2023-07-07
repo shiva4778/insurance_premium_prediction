@@ -182,13 +182,49 @@ class Configuration:
             raise InsuranceException(e,sys) from e
 
     def get_model_evaluation_config(self)->ModelEvaluationConfig:
-        pass
+        try:
+            model_evaluation_config=self.config_info[MODEL_EVALUATON_CONFIG_KEY]
+            artifact_dir=os.path.join(self.training_pipeline_config.artifact_dir,
+                                    MODEL_EVALUATION_ARTIFACT_DIR,)
+            
+            model_evaluation_file_path=os.path.join(artifact_dir,
+                                                    model_evaluation_config[MODEL_EVALUATION_FILE_NAME_KEY])
+            
+            response=ModelEvaluationConfig(model_evaluation_file_path=model_evaluation_file_path,
+                                        time_stamp=time_stamp)
+            
+            logging.info(f"Model Evaluation COnfig:{response}.")
 
-    def get_model_evaluation_config(self)->ModelEvaluationConfig:
-        pass
+            return response
+
+        except Exception as e:
+            raise InsuranceException(e,sys) from e
+
+    
+    
+
+    
+
+        
+
+    
 
     def get_model_pusher_config(self)->ModelPusherConfig:
-        pass
+        try:
+            training_pipeline_config=self.config_info[TRAINING_PIPELINE_CONFIG_KEY]
+
+            artifact_dir=os.path.join(ROOT_DIR,
+                                      training_pipeline_config[TRAINING_PIPELINE_NAME_KEY],
+                                      training_pipeline_config[TRAINING_PIPELINE_ARTIFACT_DIR_KEY])
+            
+            training_pipeline_config=TrainingPipelineConfig(artifact_dir=artifact_dir)
+
+            logging.info(f"Traininig pipeline config:{training_pipeline_config}")
+
+            return training_pipeline_config
+        
+        except Exception as e:
+            raise InsuranceException(e,sys) from e
 
 
     def get_training_pipeline_config(self)->TrainingPipelineConfig:

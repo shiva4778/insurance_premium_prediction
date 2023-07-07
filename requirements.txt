@@ -6,3 +6,4 @@ six
 dill
 scikit_learn
 evidently
+shutil

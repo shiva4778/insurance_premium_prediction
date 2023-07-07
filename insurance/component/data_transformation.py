@@ -153,7 +153,7 @@ class DataTransformation:
 
           transformed_test_dir=self.data_transformation_config.transformed_test_dir
 
-
+          #npz foramt is used to store an array in compressed format
           train_file_name=os.path.basename(train_file_path).replace('.csv','.npz')
 
           test_file_name=os.path.basename(test_file_path).replace('.csv','.npz')

@@ -6,5 +6,6 @@ PyYaml
 dill
 scikit_learn
 evidently
-urllib
 pytest-shutil
+pymongo
+-e .

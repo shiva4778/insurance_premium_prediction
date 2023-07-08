@@ -3,7 +3,7 @@ training_pipeline_config:
   artifact_dir: artifact
 
 data_ingestion_config:
-  dataset_download_url:mongodb+srv://admin:4778@cluster0.1dwmksq.mongodb.net/?retryWrites=true&w=majority
+  dataset_download_url: mongodb+srv://admin:4778@cluster0.1dwmksq.mongodb.net/?retryWrites=true&w=majority
   raw_data_dir: raw_data
   ingested_dir: ingested_data
   ingested_train_dir: train

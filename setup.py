@@ -1,28 +1,43 @@
-from setuptools import find_packages,setup
+from setuptools import setup,find_packages
 from typing import List
+#Declaring variables for setup functions
 
-HYPEN_E_DOT = '-e .'
-def get_requirements(file_path:str)->List[str]:
-    '''
-    This function will return th list of requirements.
-    '''
-    requirements=[]
-    with open(file_path) as file_obj:
-        requirements=file_obj.readlines()
-        requirements = [req.replace('\n','') for req in requirements]
+PROJECT_NAME="insurance_prediction"
+VERSION="0.0.3"
+AUTHOR="Shivanshu"
+DESCRIPTION="This is my first Machine Learning Project"
+PACKAGES=["insurance"]
+REQUIREMENT_FILE_NAME="requirements.txt"
 
-        if HYPEN_E_DOT in requirements:
-            requirements.remove(HYPEN_E_DOT)
-    return requirements
+
+
+def get_requirements_list()->List[str]:
+
+    """
+    Description: This function is going to return list of requirements
+    mentioned in requirements.txt file
+    return: This function is going to return a list which contain name
+    of libraries mentioned in requirements.txt file
+    """
+
+
+
+    with open(REQUIREMENT_FILE_NAME) as requirement_file:
+        return requirement_file.readlines().remove("-e .")
 
 
 
 setup(
-    name='insurance_premium',
-    version='3.7.0',
-    author='Shivanshu Mall',
-    author_email='shivanshuxmall@gmail.com',
-    packages=find_packages(),
-    install_requires = get_requirements('requirements.txt'),
-    
+name=PROJECT_NAME,
+version=VERSION,
+author=AUTHOR,
+description=DESCRIPTION,
+packages=PACKAGES,# IT RETURNS __init__.py files if the root folder having __init__.py files
+install_requires=get_requirements_list()
+
 )
+
+# if __name__=="__main__":
+#     print(get_requirements_list())
+
+

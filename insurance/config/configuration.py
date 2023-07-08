@@ -1,7 +1,14 @@
-from insurance.entity.config_entity import DataIngestionConfig,DataTransformationConfig,DataValidationConfig,ModelEvaluationConfig,ModelPusherConfig,ModelTrainerConfig,TrainingPipelineConfig
+from insurance.entity.config_entity import DataIngestionConfig,DataTransformationConfig,\
+DataValidationConfig,ModelEvaluationConfig,ModelPusherConfig,ModelTrainerConfig,TrainingPipelineConfig
 from insurance.util.util import read_yaml_file
-import os,sys
-from insurance.constant import *
+import os
+import sys
+from insurance.constant import CONFIG_FILE_PATH,CURRENT_TIME_STAMP,\
+    DATA_INGESTION_ARTIFACT_DIR,DATA_INGESTION_CONFIG_KEY,DATA_INGESTION_DOWNLOAD_URL_KEY,\
+    DATA_INGESTION_INGESTED_DIR_NAME_KEY,DATA_INGESTION_RAW_DATA_DIR_KEY,\
+    DATA_INGESTION_TEST_DIR_KEY,DATA_INGESTION_TRAIN_DIR_KEY
+
+
 from insurance.logger import logging
 from insurance.exception import InsuranceException
 
@@ -37,7 +44,7 @@ class Configuration:
             
 
             raw_data_dir=os.path.join(data_ingestion_artifact_dir,
-                      data_ingestion_info[DATA_INGESTION_RAW_DATA_DIR_KEY]                )
+                      data_ingestion_info[DATA_INGESTION_RAW_DATA_DIR_KEY])
             
 
             ingested_data_dir=os.path.join(

@@ -1,6 +1,8 @@
 from insurance.entity.config_entity import DataIngestionConfig
 from insurance.config.configuration import Configuration
-import os,sys
+import os
+
+import sys
 from insurance.exception import InsuranceException
 from insurance.logger import logging
 import numpy as np

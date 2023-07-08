@@ -2,9 +2,9 @@ numpy
 pandas 
 sklearn
 Flask
-six
-yaml
+PyYaml
 dill
 scikit_learn
 evidently
-shutil
+urllib
+pytest-shutil

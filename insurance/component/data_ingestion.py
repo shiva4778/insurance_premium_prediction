@@ -5,6 +5,7 @@ from insurance.exception import InsuranceException
 from insurance.logger import logging
 import numpy as np
 import pandas as pd
+from pymongo import MongoClient
 
 from insurance.entity.artifact_entity import DataIngestionArtifact
 from sklearn.model_selection import train_test_split
@@ -21,12 +22,34 @@ class DataIngestion:
 
             raise InsuranceException(e,sys)
         
+    def connecting_database(self):
+        try:
+            client = MongoClient(self.data_ingestion_config.dataset_download_url)
+            db = client['Insurance_database']
+            collection = db['Insurance']
+            return db,collection,client
+
+        except Exception as e:
+            raise InsuranceException(e,sys) from e
+        
     def reading_data(self):
         try:
-            raw_data=pd.read_csv(r'data/insurance.csv')
+            db,collection,client=self.connecting_database()
+            
+            # Retrieve data from MongoDB
+            data = collection.find()
+
+            # Convert MongoDB data to a DataFrame
+            df = pd.DataFrame(list(data))
+
+            # Save DataFrame as a CSV file
+            #df.to_csv('raw_data', index=False)
+
+            # Close the MongoDB connection
+            client.close()
             
             
-            return raw_data
+            return df
         except Exception as e:
                 raise InsuranceException(e,sys) from e
         
@@ -69,6 +92,7 @@ class DataIngestion:
         print(data_ingestion_artifact)
 
         print('successfully completed')
+        print(train_data.head())
 
 
 
@@ -76,10 +100,10 @@ class DataIngestion:
     
         
 
-# if __name__== "__main__":
-#      config = Configuration().get_data_ingestion_config()
-#      a=DataIngestion(config)
-#      a.train_test_split()
+if __name__== "__main__":
+    config = Configuration().get_data_ingestion_config()
+    a=DataIngestion(config)
+    a.train_test_split()
 
         
 

@@ -31,7 +31,6 @@ DATA_VALIDATION_SCHEMA_FILE_NAME_KEY='schema_file_name'
 DATA_VALIDATION_ARTIFACT_DIR_NAME='data_validation'
 DATA_VALIDATION_SCHEMA_DIR_KEY='schema_dir'
 DATA_VALIDATION_REPORT_FILE_NAME_KEY='report_file_name'
-
 DATA_VALIDATION_REPORT_PAGE_FILE_NAME_KEY='report_page_file_name'
 
 
@@ -48,7 +47,6 @@ TARGET_COLUMN_KEY = "target_column"
 
 NUMERICAL_COLUMN_KEY = "numerical_columns"
 CATEGORICAL_COLUMN_KEY = "categorical_columns"
-
 DOMAIN_VALUES_COLUMN_KEY = "domain_value"
 
 

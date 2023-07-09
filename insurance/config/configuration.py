@@ -1,12 +1,8 @@
-from insurance.entity.config_entity import DataIngestionConfig,DataTransformationConfig,\
-DataValidationConfig,ModelEvaluationConfig,ModelPusherConfig,ModelTrainerConfig,TrainingPipelineConfig
+from insurance.entity.config_entity import *
 from insurance.util.util import read_yaml_file
 import os
 import sys
-from insurance.constant import CONFIG_FILE_PATH,CURRENT_TIME_STAMP,\
-    DATA_INGESTION_ARTIFACT_DIR,DATA_INGESTION_CONFIG_KEY,DATA_INGESTION_DOWNLOAD_URL_KEY,\
-    DATA_INGESTION_INGESTED_DIR_NAME_KEY,DATA_INGESTION_RAW_DATA_DIR_KEY,\
-    DATA_INGESTION_TEST_DIR_KEY,DATA_INGESTION_TRAIN_DIR_KEY
+from insurance.constant import *
 
 
 from insurance.logger import logging
@@ -24,7 +20,6 @@ class Configuration:
             self.config_info=read_yaml_file(file_path=config_file_path)
             self.training_pipeline_config=self.get_training_pipeline_config()
             self.time_stamp=current_time_stamp
-            print(current_time_stamp)
         except Exception as e:
             raise InsuranceException(e,sys)
     
@@ -39,9 +34,6 @@ class Configuration:
             data_ingestion_info=self.config_info[DATA_INGESTION_CONFIG_KEY]
 
             dataset_download_url=data_ingestion_info[DATA_INGESTION_DOWNLOAD_URL_KEY]
-            
-
-            
 
             raw_data_dir=os.path.join(data_ingestion_artifact_dir,
                       data_ingestion_info[DATA_INGESTION_RAW_DATA_DIR_KEY])
@@ -67,12 +59,9 @@ class Configuration:
 
             data_ingestion_config=DataIngestionConfig(
                     dataset_download_url=dataset_download_url,
-                    
                     raw_data_dir=raw_data_dir,
                     ingested_train_dir=ingested_train_dir,
                     ingested_test_dir=ingested_test_dir
-
-
             )
 
             logging.info(f"Data Ingestion config:{data_ingestion_config}")
@@ -149,7 +138,7 @@ class Configuration:
             logging.info('Data Transformation Configuration Completed')
             
             
-            print(data_transformation_config)
+            logging.info(f"Data Transformation Config: {data_transformation_config}")
 
             return data_transformation_config
         except Exception as e:
@@ -207,14 +196,6 @@ class Configuration:
         except Exception as e:
             raise InsuranceException(e,sys) from e
 
-    
-    
-
-    
-
-        
-
-    
 
     def get_model_pusher_config(self) -> ModelPusherConfig:
         try:
@@ -226,9 +207,6 @@ class Configuration:
             model_pusher_config = ModelPusherConfig(export_dir_path=export_dir_path)
             logging.info(f"Model pusher config {model_pusher_config}")
             return model_pusher_config
-
-        except Exception as e:
-            raise InsuranceException(e,sys) from e
         
         except Exception as e:
             raise InsuranceException(e,sys) from e

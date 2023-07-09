@@ -32,11 +32,11 @@ class DataValidation:
     def get_train_and_test_df(self):
         try:
             logging.info('Reading train and test data ')
-            print(self.data_ingestion_artifact.train_file_path)
+            
             train_df=pd.read_csv(self.data_ingestion_artifact.train_file_path)
-            test_df=pd.read_csv(self.data_ingestion_artifact.test_file_path)
-            print(train_df.head())
 
+            test_df=pd.read_csv(self.data_ingestion_artifact.test_file_path)
+            
             return train_df,test_df
     
         except Exception as e:
@@ -226,16 +226,3 @@ class DataValidation:
 
         except Exception as e:
             raise InsuranceException(e,sys) from e
-        
-
-
-
-
-                
-                                    
-
-
-
-
-
-

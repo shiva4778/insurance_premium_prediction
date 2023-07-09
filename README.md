@@ -4,7 +4,12 @@
 Insurance Premium predictor
 
 ## Language and Libraries
-python pandas numpy  Seaborn 
+![python](https://github.com/shiva4778/insurance_premium_prediction/assets/89657400/97a26c75-7bba-4a70-b925-167db18bd1b3)![pandas](https://github.com/shiva4778/insurance_premium_prediction/assets/89657400/4589e0eb-b2b5-4927-a4b2-7ee79724e977)
+![flask](https://github.com/shiva4778/insurance_premium_prediction/assets/89657400/bb7ee9ea-7684-4057-bb1b-df37cf594042)
+![sea](https://github.com/shiva4778/insurance_premium_prediction/assets/89657400/216b8828-16ba-475f-bb63-21d15e329f00)
+![mat](https://github.com/shiva4778/insurance_premium_prediction/assets/89657400/4f0df5c6-bd7b-4c98-840e-fd4b1c47aed8)
+![numpy](https://github.com/shiva4778/insurance_premium_prediction/assets/89657400/405632ec-9ada-47e9-87cb-673e5cde4750)
+
 
 ## Software and account requirements.
 Github Account
@@ -129,19 +134,6 @@ Custom Exceptions and Logger are used in this Project for better debugging purpo
 ## This is the screenshot of the Home Webpage which has been done using the Flask
 ![Screenshot (128)](https://github.com/shiva4778/insurance_premium_prediction/assets/89657400/01f676e3-0b15-4d3d-9102-75e1681c692d)
 
-
-## This is the screenshot of the webpage which gets user input for prediction
-webpage
-
-## This is the screenshot of the page which shows history of the experiment that had run previously and currently running status
-Can be used as experiment history Tracking
-experiment history
-
-## This is the screenshot of the page in which user can change the model parameters for the experiment
-model parameters
-
-## This is the screenshot of the page in which user can train the model with update new parameters in Update Model Config section
-model parameters
 
 ## Conclusion
 This Project which predicts the amount of the insurance premium based on different parameters (like Age,BMI etc) for a particular person can be implemented practically and used by Insurance Comapnies in real life. This will help the companies to predict the estimate for Insurance premium for a particular person by considering the risk involved for that particular person.

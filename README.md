@@ -10,10 +10,11 @@ Insurance Premium predictor
 ![mat](https://github.com/shiva4778/insurance_premium_prediction/assets/89657400/4f0df5c6-bd7b-4c98-840e-fd4b1c47aed8)
 ![numpy](https://github.com/shiva4778/insurance_premium_prediction/assets/89657400/405632ec-9ada-47e9-87cb-673e5cde4750)
 
+## DataBase
+Mongodb
 
 ## Software and account requirements.
 Github Account
-Heroku Account
 VS Code IDE
 GitHub CodeSpaces
 GIT cli
